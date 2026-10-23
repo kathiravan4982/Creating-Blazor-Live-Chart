@@ -4,7 +4,7 @@
 
 This sample demonstrates how to create a live chart using the Syncfusion [Blazor Chart](https://www.syncfusion.com/blazor-components/blazor-charts) component. The application renders a Blazor Line Chart and continuously updates the displayed data to simulate a real-time visualization scenario. This approach is useful when representing frequently changing values such as monitoring data, live measurements, operational metrics, or continuously refreshed datasets.
 
-The project is implemented as a Blazor application and showcases a live-updating chart experience using the Syncfusion charting components.
+The project is implemented as a .NET 10 Blazor Web App and showcases a live-updating chart experience using the Syncfusion charting components. The Syncfusion Blazor Charts NuGet package (`Syncfusion.Blazor.Charts`) is referenced from the project, the `Syncfusion.Blazor` service is registered in `Program.cs`, and the Syncfusion theme and script resources are referenced in `Components/App.razor`.
 
 ## Key Features
 
@@ -13,16 +13,16 @@ The project is implemented as a Blazor application and showcases a live-updating
 - Uses a dedicated Blazor project (`LiveChart.csproj`) to render the chart.
 - Illustrates real-time visualization techniques using a line-series chart representation.
 - Provides a reference implementation for scenarios requiring continuously refreshed chart data.
-- Demonstrates chart rendering within a standard Blazor application structure.
+- Built on the .NET 10 Blazor Web App structure with the `Components` folder, interactive server rendering and `Routes.razor`.
 
 ## Prerequisites
 
-- Visual Studio 2022 or Visual Studio Code
-- .NET SDK compatible with the project's target framework
+- Visual Studio 2026 or Visual Studio Code
+- .NET 10 SDK
 
 ## How to Run the Project
 
-**Visual Studio 2022**
+**Visual Studio 2026**
 
 1. Clone or download this repository.
 2. Open `LiveChart.sln`.

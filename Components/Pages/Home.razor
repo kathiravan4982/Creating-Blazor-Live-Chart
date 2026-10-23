@@ -1,0 +1,68 @@
+@page "/"
+@using System.Collections.ObjectModel
+@rendermode InteractiveServer
+
+<PageTitle>Live Chart</PageTitle>
+
+<h1>Live Chart</h1>
+
+<SfChart @ref="liveChart" Title="CPU Usage" Width="100%">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="mm:ss" Title="Time">
+        <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+    </ChartPrimaryXAxis>
+    <ChartArea>
+        <ChartAreaBorder Width="0"></ChartAreaBorder>
+    </ChartArea>
+    <ChartPrimaryYAxis Title="Usage" Minimum="0" Interval="20" Maximum="100" LabelFormat="{value}%">
+        <ChartAxisLineStyle Width="0" Color="transparent"></ChartAxisLineStyle>
+    </ChartPrimaryYAxis>
+    <ChartSeriesCollection>
+        <ChartSeries Type="ChartSeriesType.Line" Width="2" DataSource="@DataPoints1"
+                     XName="@nameof(ChartDataPoint.XValue)" YName="@nameof(ChartDataPoint.YValue)">
+            <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+        </ChartSeries>
+    </ChartSeriesCollection>
+</SfChart>
+
+
+@code{
+    private static System.Timers.Timer syncTimer = new System.Timers.Timer();
+    private SfChart? liveChart;
+    private double count = 100;
+    private Random random = new Random();
+    public ObservableCollection<ChartDataPoint> DataPoints1 = new ObservableCollection<ChartDataPoint>();
+
+    protected override void OnInitialized()
+    {
+        // Provide the chart with initial data on page load.
+        for (int i = 0; i < count; i++)
+        {
+            DataPoints1.Add(new ChartDataPoint { XValue = DateTime.Now.AddSeconds(i + 10), YValue = random.Next(30, 80) });
+        }
+        // Start live update for charts.
+        syncTimer = new System.Timers.Timer(500);
+        syncTimer.Elapsed += AddData;
+        syncTimer.AutoReset = true;
+        syncTimer.Enabled = true;
+    }
+
+    void AddData(Object? source, System.Timers.ElapsedEventArgs e)
+    {
+        if (liveChart == null)
+        {
+            return;
+        }
+        count++;
+        DataPoints1.RemoveAt(0);
+        DataPoints1.Add(
+            new ChartDataPoint { XValue = DateTime.Now.AddSeconds(count + 10), YValue = random.Next(30, 80) }
+        );
+        InvokeAsync(this.StateHasChanged);
+    }
+
+    public class ChartDataPoint
+    {
+        public DateTime XValue { get; set; }
+        public double YValue { get; set; }
+    }
+}
